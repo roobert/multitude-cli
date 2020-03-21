@@ -1,3 +1,3 @@
 # Multitude Client
 
-Application Deployment Release Pipeline Client
+See [Multitude](https://github.com/roobert/multitude) for more info.
