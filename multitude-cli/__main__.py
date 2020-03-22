@@ -10,8 +10,8 @@ import urllib.parse
 
 def main():
     db = get_data()
-
     rows = []
+
     for data in db["git_repo"]:
         row = {
             "timestamp": "",
@@ -40,24 +40,6 @@ def main():
     print(tabulate(rows, headers="keys", tablefmt="psql"))
 
 
-def get_status(db, collection, owner, repo, tag):
-    for entry in db[collection]:
-        if (
-            entry["owner"] == owner
-            and entry["repo"] == repo
-            and entry["properties"]["tag"] == tag
-        ):
-            return entry["properties"]["status"]
-    return "--"
-
-
-def format_timestamp(timestamp):
-    time = datetime.datetime.strptime(
-        "".join(timestamp.rsplit(":", 1)), "%Y-%m-%dT%H:%M:%S.%f%z",
-    )
-    return time.strftime("%Y-%m-%d %H:%M:%S")
-
-
 def get_data():
     address = "http://localhost:8000"
     db = {}
@@ -74,6 +56,24 @@ def get_data():
         db[collection] = json.loads(data)
 
     return db
+
+
+def format_timestamp(timestamp):
+    time = datetime.datetime.strptime(
+        "".join(timestamp.rsplit(":", 1)), "%Y-%m-%dT%H:%M:%S.%f%z",
+    )
+    return time.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def get_status(db, collection, owner, repo, tag):
+    for entry in db[collection]:
+        if (
+            entry["owner"] == owner
+            and entry["repo"] == repo
+            and entry["properties"]["tag"] == tag
+        ):
+            return entry["properties"]["status"]
+    return "--"
 
 
 if __name__ == "__main__":
