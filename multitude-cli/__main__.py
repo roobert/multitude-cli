@@ -9,6 +9,10 @@ import urllib.parse
 
 
 def main():
+    dump_table()
+
+
+def dump_table():
     db = get_data()
     rows = []
 
