@@ -36,7 +36,8 @@ def main():
 
         rows.append(row)
 
-    print(tabulate(rows, headers="keys"))
+    # fancy_grid is nicer but doesn't work with watch(1)
+    print(tabulate(rows, headers="keys", tablefmt="psql"))
 
 
 def get_status(db, collection, owner, repo, tag):
