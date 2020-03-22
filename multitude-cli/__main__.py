@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-from os import path
 import json
+import datetime
+from os import path
 from tabulate import tabulate
 import urllib.request
 import urllib.parse
@@ -21,7 +22,7 @@ def main():
             "deployment": "",
         }
 
-        row["timestamp"] = data["timestamp"]
+        row["timestamp"] = format_timestamp(data["timestamp"])
         row["app"] = path.join(data["owner"], data["repo"])
         row["version"] = data["properties"]["tag"]
         row["build pipeline"] = data["properties"]["status"]
@@ -47,6 +48,13 @@ def get_status(db, collection, owner, repo, tag):
         ):
             return entry["properties"]["status"]
     return "--"
+
+
+def format_timestamp(timestamp):
+    time = datetime.datetime.strptime(
+        "".join(timestamp.rsplit(":", 1)), "%Y-%m-%dT%H:%M:%S.%f%z",
+    )
+    return time.strftime("%Y-%m-%d %H:%M:%S")
 
 
 def get_data():
